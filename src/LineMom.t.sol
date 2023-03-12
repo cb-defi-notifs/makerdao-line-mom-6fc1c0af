@@ -207,6 +207,26 @@ contract LineMomTest is Test {
         assertEq(t, 0);
     }
 
+    function testWipeAuthorizedMany() public {
+        vm.prank(caller);
+        vm.expectEmit(true, true, true, true);
+        emit Wipe("ETH-A", 100);
+        assertEq(mom.wipe("ETH-A"), 100);
+        assertEq(getVatIlkLine("ETH-A"), 0);
+        (uint256 l, uint256 g, uint256 t,,) = autoLine.ilks("ETH-A");
+        assertEq(l, 0);
+        assertEq(g, 0);
+        assertEq(t, 0);
+        vm.expectEmit(true, true, true, true);
+        emit Wipe("ETH-A", 0);
+        assertEq(mom.wipe("ETH-A"), 0);
+        assertEq(getVatIlkLine("ETH-A"), 0);
+        (l, g, t,,) = autoLine.ilks("ETH-A");
+        assertEq(l, 0);
+        assertEq(g, 0);
+        assertEq(t, 0);
+    }
+
     function testWipeOwner() public {
         vm.expectEmit(true, true, true, true);
         emit Wipe("ETH-A", 100);
