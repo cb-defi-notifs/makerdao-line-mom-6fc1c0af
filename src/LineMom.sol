@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/// LineMom -- governance interface for the OSM
+/// LineMom -- governance interface for setting a debt ceiling to zero
 
 // Copyright (C) 2023 Dai Foundation
 //
