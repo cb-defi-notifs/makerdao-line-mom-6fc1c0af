@@ -109,6 +109,8 @@ contract LineMomTest is Test {
     address caller = address(0x123);
     SimpleAuthority authority;
 
+    event Wipe(bytes32 indexed ilk, uint256 line);
+
     function setUp() public {
         vat = new VatMock();
         vat.file("ETH-A", "line", 100);
@@ -195,7 +197,9 @@ contract LineMomTest is Test {
 
     function testWipeAuthorized() public {
         vm.prank(caller);
-        mom.wipe("ETH-A");
+        vm.expectEmit(true, true, true, true);
+        emit Wipe("ETH-A", 100);
+        assertEq(mom.wipe("ETH-A"), 100);
         assertEq(getVatIlkLine("ETH-A"), 0);
         (uint256 l, uint256 g, uint256 t,,) = autoLine.ilks("ETH-A");
         assertEq(l, 0);
@@ -204,7 +208,9 @@ contract LineMomTest is Test {
     }
 
     function testWipeOwner() public {
-        mom.wipe("ETH-A");
+        vm.expectEmit(true, true, true, true);
+        emit Wipe("ETH-A", 100);
+        assertEq(mom.wipe("ETH-A"), 100);
         assertEq(getVatIlkLine("ETH-A"), 0);
         (uint256 l, uint256 g, uint256 t,,) = autoLine.ilks("ETH-A");
         assertEq(l, 0);

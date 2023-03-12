@@ -24,6 +24,7 @@ interface AuthorityLike {
 }
 
 interface VatLike {
+    function ilks(bytes32) external view returns (uint256, uint256, uint256, uint256, uint256);
     function file(bytes32 ilk, bytes32 what, uint256 data) external;
 }
 
@@ -45,7 +46,7 @@ contract LineMom {
     event File(bytes32 indexed what, address data);
     event AddIlk(bytes32 indexed ilk);
     event DelIlk(bytes32 indexed ilk);
-    event Wipe(bytes32 indexed ilk);
+    event Wipe(bytes32 indexed ilk, uint256 line);
 
     modifier onlyOwner {
         require(msg.sender == owner, "LineMom/only-owner");
@@ -101,10 +102,11 @@ contract LineMom {
         emit DelIlk(ilk);
     }
 
-    function wipe(bytes32 ilk) external auth {
+    function wipe(bytes32 ilk) external auth returns (uint256 line) {
         require(ilks[ilk] == 1, "LineMom/ilk-not-added");
+        (,,, line,) = VatLike(vat).ilks(ilk);
         AutoLineLike(autoLine).remIlk(ilk);
         VatLike(vat).file(ilk, "line", 0);
-        emit Wipe(ilk);
+        emit Wipe(ilk, line);
     }
 }
