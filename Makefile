@@ -1,3 +1,3 @@
-build  :; forge build --use solc:0.8.16
+build  :; FOUNDRY_OPTIMIZER=false FOUNDRY_OPTIMIZER_RUNS=200 forge build --use solc:0.8.16
 clean  :; forge clean
-test   :; forge test --use solc:0.8.16
+test   :; FOUNDRY_OPTIMIZER=false FOUNDRY_OPTIMIZER_RUNS=200 forge test --use solc:0.8.16
