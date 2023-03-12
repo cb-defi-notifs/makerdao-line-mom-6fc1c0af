@@ -110,6 +110,8 @@ contract LineMomTest is Test {
     SimpleAuthority authority;
 
     event Wipe(bytes32 indexed ilk, uint256 line);
+    event AddIlk(bytes32 indexed ilk);
+    event DelIlk(bytes32 indexed ilk);
 
     function setUp() public {
         vat = new VatMock();
@@ -168,8 +170,12 @@ contract LineMomTest is Test {
     }
 
     function testAddDelIlk() public {
+        vm.expectEmit(true, true, true, true);
+        emit AddIlk("ETH-B");
         mom.addIlk("ETH-B");
         assertTrue(mom.ilks("ETH-B") == 1);
+        vm.expectEmit(true, true, true, true);
+        emit DelIlk("ETH-B");
         mom.delIlk("ETH-B");
         assertTrue(mom.ilks("ETH-B") == 0);
     }
