@@ -103,8 +103,8 @@ contract LineMom {
 
     function wipe(bytes32 ilk) external auth {
         require(ilks[ilk] == 1, "LineMom/ilk-not-added");
-        VatLike(vat).file(ilk, "line", 0);
         AutoLineLike(autoLine).remIlk(ilk);
+        VatLike(vat).file(ilk, "line", 0);
         emit Wipe(ilk);
     }
 }
