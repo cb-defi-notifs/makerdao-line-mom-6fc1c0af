@@ -227,4 +227,10 @@ contract LineMomTest is Test {
         vm.expectRevert("LineMom/not-authorized");
         mom.wipe("ETH-A");
     }
+
+    function testWipeIlkNotAdded() public {
+        mom.delIlk("ETH-A");
+        vm.expectRevert("LineMom/ilk-not-added");
+        mom.wipe("ETH-A");
+    }
 }
