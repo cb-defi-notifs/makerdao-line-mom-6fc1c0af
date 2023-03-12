@@ -17,7 +17,7 @@
 
 pragma solidity ^0.8.16;
 
-import "forge-std/test.sol";
+import "forge-std/Test.sol";
 
 import "./LineMom.sol";
 
